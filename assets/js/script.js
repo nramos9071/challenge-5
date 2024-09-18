@@ -15,12 +15,12 @@ function generateTaskId() {
 // Todo: create a function to create a task card
 function createTaskCard(task) {
 
-    // addTaskButton.addEventListener('click', function() {
-    //     toDoCards.innerHTML = `
-    //     <
-    //     `
+    addTaskButton.addEventListener('click', function() {
+        toDoCards.innerHTML = `
+        <
+        `
 
-    // })
+    })
 
 
 }

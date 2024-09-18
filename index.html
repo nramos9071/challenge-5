@@ -36,8 +36,22 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            ...
+          <div class="modal-body" id="modal-form">
+            <form >
+              <div class="form-group">
+                <label for="formGroupExampleInput">Task Title</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
+              </div>
+              <div>
+              <label for="birthday">Task Date:</label>
+              <input type="date" id="birthday" name="birthday">
+              </div>
+              <div class="form-group">
+                <label for="formGroupExampleInput2">Task Description</label>
+                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+              </div>
+          
+            </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
