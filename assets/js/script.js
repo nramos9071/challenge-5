@@ -1,4 +1,6 @@
 // Retrieve tasks and nextId from localStorage
+const addTaskButton = document.querySelector('#addtaskbutton');
+const toDoCards = document.querySelector('#todo-cards');
 let taskList = JSON.parse(localStorage.getItem("tasks"));
 let nextId = JSON.parse(localStorage.getItem("nextId"));
 
@@ -12,6 +14,14 @@ function generateTaskId() {
 
 // Todo: create a function to create a task card
 function createTaskCard(task) {
+
+    // addTaskButton.addEventListener('click', function() {
+    //     toDoCards.innerHTML = `
+    //     <
+    //     `
+
+    // })
+
 
 }
 
