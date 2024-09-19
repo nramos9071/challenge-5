@@ -14,3 +14,9 @@ body {
 .task-card:hover {
   cursor: grab;
 }
+
+.class {
+  background-color: green;
+  height: 50px;
+  width: 40px;
+}

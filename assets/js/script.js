@@ -1,6 +1,9 @@
 // Retrieve tasks and nextId from localStorage
-const addTaskButton = document.querySelector('#addtaskbutton');
+const saveBtn = document.querySelector('#saveBtn');
 const toDoCards = document.querySelector('#todo-cards');
+let title = document.querySelector('#title');
+let date = document.querySelector('#date');
+let description = document.querySelector('#description').value;
 let taskList = JSON.parse(localStorage.getItem("tasks"));
 let nextId = JSON.parse(localStorage.getItem("nextId"));
 
@@ -13,17 +16,21 @@ function generateTaskId() {
 }
 
 // Todo: create a function to create a task card
-function createTaskCard(task) {
+function createTaskCard() { 
+    console.log(title.value)
+    toDoCards.innerHTML = `
+    <section class="todocards">
+        <h2>${title.value}</h2>
+        <p>${date.value}</p>
+        <button>Delete</button>
 
-    addTaskButton.addEventListener('click', function() {
-        toDoCards.innerHTML = `
-        <
-        `
-
-    })
-
+    </section>
+    
+    `
 
 }
+
+
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
@@ -49,3 +56,15 @@ function handleDrop(event, ui) {
 $(document).ready(function () {
 
 });
+
+
+saveBtn.addEventListener('click', function() {
+
+    createTaskCard();
+
+    // toDoCards.innerHTML = `
+    // <
+    // `
+
+})
+
