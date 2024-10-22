@@ -12,11 +12,15 @@ const cards = document.querySelector('#card');
 
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
-    Math.floor((1 + Math.random()) * 0x10000)
-    .toString(16)
-    .substring(1);
+    const taskId = generateTaskId();
+    console.log(title.value);
 
+    let taskInfo = [{ id: taskId, title: title.value, date: date.value, description: description.value }];
+
+    localStorage.setItem('tasks', JSON.stringify(taskInfo));
 }
+
+
 
 // Todo: create a function to create a task card
 function createTaskCard() { 
@@ -37,24 +41,18 @@ function createTaskCard() {
 function renderTaskList() {
 
     let tasks = JSON.parse(localStorage.getItem('tasks'));
-    console.log(tasks[0].title)
+    console.log(tasks[0].title);
 
-    // for (let i = 0; i = tasks.length; i++) {
+    tasks.push({ id: generateTaskId(), title: title.value, date: date.value, description: description.value });
+    localStorage.setItem('tasks', JSON.stringify(tasks));
 
-        tasks.push({title: title.value, date: date.value, description: description.value});
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-        toDoCards.innerHTML = `
-        <section id=card draggable="true" ondragstart="drag(event)" class="todocards">
-            <h2>${tasks[0].title}</h2>
-            <p>${tasks[0].date}</p>
+    toDoCards.innerHTML = tasks.map(task => `
+        <section id="${task.id}" draggable="true" ondragstart="drag(event)" class="todocards">
+            <h2>${task.title}</h2>
+            <p>${task.date}</p>
             <button>Delete</button>
-    
         </section>
-        
-        `;
-    
-
-    // };
+    `).join('');
 
 }
 
@@ -185,4 +183,5 @@ saveBtn.addEventListener('click', function() {
     // `
 
 })
+
 
