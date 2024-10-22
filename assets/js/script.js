@@ -44,14 +44,18 @@ function setUpDragAndDrop() {
         card.addEventListener('dragstart', (e) => {
             draggedCard = card;
             setTimeout(() => {
-                card.style.display = 'none';
+                if (draggedCard) {
+                    draggedCard.style.display = 'none';
+                }
             }, 0);
         });
 
         card.addEventListener('dragend', () => {
             setTimeout(() => {
-                draggedCard.style.display = 'block';
-                draggedCard = null;
+                if (draggedCard) {
+                    draggedCard.style.display = 'block';
+                    draggedCard = null;
+                }
             }, 0);
         });
 
@@ -89,14 +93,23 @@ function drop(ev) {
     var data = ev.dataTransfer.getData("text");
     var card = document.getElementById(data);
     // Check if the card and drop target exist
-    if (card && ev.target.closest('.lane') && ev.target.closest('.lane').querySelector('.card-body')) {
-        ev.target.closest('.lane').querySelector('.card-body').appendChild(card);
+    if (card) {
+        let dropTarget = ev.target.closest('.lane')?.querySelector('.card-body');
+        if (!dropTarget) {
+            if (ev.target.id === 'in-progress-cards' || ev.target.id === 'done-cards') {
+                dropTarget = ev.target;
+            }
+        }
+        if (dropTarget) {
+            dropTarget.appendChild(card);
+        } else {
+            console.error("Drop target not found.");
+        }
     } else {
-        console.error("Drop target or card not found.");
+        console.error("Card not found.");
     }
 }
 
-// When the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
     renderTaskList();
     setUpDragAndDrop();
@@ -106,6 +119,6 @@ saveBtn.addEventListener('click', function() {
     createTaskCard();
     renderTaskList();
     setUpDragAndDrop();
-})
+});
 
 
