@@ -59,30 +59,30 @@ function renderTaskList() {
 }
 
 // Todo: create a function to handle adding a new task
-function handleAddTask(){
-    let tasks = JSON.parse(localStorage.getItem('tasks'));
+// function handleAddTask(){
+//     let tasks = JSON.parse(localStorage.getItem('tasks'));
 
-    for (let i = 0; i <= tasks.length; i++) {
+//     for (let i = 0; i <= tasks.length; i++) {
 
-        tasks.push({title: title.value, date: date.value, description: description.value});
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-        toDoCards.append(card).innerHTML = `
-        <section id=card draggable="true" ondragstart="drag(event)" class="todocards">
-            <h2>${tasks[i].title}</h2>
-            <p>${tasks[i].date}</p>
-            <button>Delete</button>
+//         tasks.push({title: title.value, date: date.value, description: description.value});
+//         localStorage.setItem('tasks', JSON.stringify(tasks));
+//         toDoCards.append(card).innerHTML = `
+//         <section id=card draggable="true" ondragstart="drag(event)" class="todocards">
+//             <h2>${tasks[i].title}</h2>
+//             <p>${tasks[i].date}</p>
+//             <button>Delete</button>
     
-        </section>
+//         </section>
         
-        `;
+//         `;
     
 
-    };
+//     };
     
     // if ( card.length < 0) {
     
     // }
-}
+// }
 
     
 
@@ -114,7 +114,7 @@ function handleDeleteTask(event){
 
 let draggedCard = null;
 
-cards.forEach(card => {
+document.querySelectorAll('.todocards').forEach(card => {
     card.addEventListener('dragstart', (e) => {
         draggedCard = card;
         setTimeout(() => {
@@ -136,14 +136,14 @@ cards.forEach(card => {
     card.addEventListener('drop', (e) => {
         e.preventDefault();
         if (draggedCard) {
-            const cardsArray = Array.from(cards);
+            const cardsArray = Array.from(document.querySelectorAll('.todocards'));
             const currentIndex = cardsArray.indexOf(card);
             const draggedIndex = cardsArray.indexOf(draggedCard);
 
             if (currentIndex > draggedIndex) {
-                container.insertBefore(draggedCard, card.nextSibling);
+                card.parentNode.insertBefore(draggedCard, card.nextSibling);
             } else {
-                container.insertBefore(draggedCard, card);
+                card.parentNode.insertBefore(draggedCard, card);
             }
         }
     });
