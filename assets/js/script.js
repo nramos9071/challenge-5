@@ -85,19 +85,24 @@ function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
     var card = document.getElementById(data);
-    if (card) {
+    // Check if the card and drop target exist
+    if (card && ev.target.closest('.lane') && ev.target.closest('.lane').querySelector('.card-body')) {
         ev.target.closest('.lane').querySelector('.card-body').appendChild(card);
+    } else {
+        console.error("Drop target or card not found.");
     }
 }
 
 // When the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
     renderTaskList();
+    setUpDragAndDrop();
 });
 
 saveBtn.addEventListener('click', function() {
     createTaskCard();
     renderTaskList();
+    setUpDragAndDrop();
 })
 
 
