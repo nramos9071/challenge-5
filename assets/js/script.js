@@ -86,13 +86,14 @@ function allowDrop(ev) {
 
 function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
+    console.log("Dragging card with id:", ev.target.id);  // Debugging log
 }
 
 function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
+    console.log("Dropping card with id:", data);  // Debugging log
     var card = document.getElementById(data);
-    // Check if the card and drop target exist
     if (card) {
         let dropTarget = ev.target.closest('.lane')?.querySelector('.card-body');
         if (!dropTarget) {
@@ -106,7 +107,7 @@ function drop(ev) {
             console.error("Drop target not found.");
         }
     } else {
-        console.error("Card not found.");
+        console.error("Card not found:", data);
     }
 }
 
@@ -120,5 +121,3 @@ saveBtn.addEventListener('click', function() {
     renderTaskList();
     setUpDragAndDrop();
 });
-
-
