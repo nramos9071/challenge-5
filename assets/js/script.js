@@ -36,6 +36,9 @@ function renderTaskList() {
 }
 
 // Function to set up drag-and-drop event listeners
+
+let draggedCard = null;
+
 function setUpDragAndDrop() {
     document.querySelectorAll('.todocards').forEach(card => {
         card.addEventListener('dragstart', (e) => {
