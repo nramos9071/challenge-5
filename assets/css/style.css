@@ -21,3 +21,7 @@ body {
   height: 215px;
   width: 335px;
 }
+
+.past-due {
+  background-color: #e70909;  
+}

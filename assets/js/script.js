@@ -23,14 +23,18 @@ function createTaskCard() {
 // Function to render the task list and make cards draggable
 function renderTaskList() {
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    const now = dayjs();
 
-    toDoCards.innerHTML = tasks.map(task => `
-        <section id="${task.id}" draggable="true" class="todocards">
-            <h2>${task.title}</h2>
-            <p>${task.date}</p>
-            <button>Delete</button>
-        </section>
-    `).join('');
+    toDoCards.innerHTML = tasks.map(task => {
+        const isPastDue = dayjs(task.date).isBefore(now, 'day');
+        return `
+            <section id="${task.id}" draggable="true" class="todocards ${isPastDue ? 'past-due' : ''}">
+                <h2>${task.title}</h2>
+                <p>${task.date}</p>
+                <button>Delete</button>
+            </section>
+        `;
+    }).join('');
 
     setUpDragAndDrop();
 }
@@ -86,13 +90,13 @@ function allowDrop(ev) {
 
 function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
-    console.log("Dragging card with id:", ev.target.id);  // Debugging log
+    console.log("Dragging card with id:", ev.target.id);  
 }
 
 function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
-    console.log("Dropping card with id:", data);  // Debugging log
+    console.log("Dropping card with id:", data);  
     var card = document.getElementById(data);
     if (card) {
         let dropTarget = ev.target.closest('.lane')?.querySelector('.card-body');
