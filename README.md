@@ -35,4 +35,4 @@ Used to keep track of tasks
 N/A
  
 ## Contributing
-Code Created by: Nick Ramos
+Code Created by: Nick Ramos with code contributed by CoPilot and Stack Overflow.
