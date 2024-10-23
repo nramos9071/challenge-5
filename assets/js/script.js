@@ -18,12 +18,41 @@ function createTaskCard() {
 
     tasks.push(taskInfo);
     localStorage.setItem('tasks', JSON.stringify(tasks));
+
+    addTaskToDOM(taskInfo);
 }
 
+function addTaskToDOM(task) {
+    const now = dayjs();
+    const isPastDue = dayjs(task.date).isBefore(now, 'day');
+    
+    const taskHTML = `
+        <section id="${task.id}" draggable="true" class="todocards ${isPastDue ? 'past-due' : ''}">
+            <h2>${task.title}</h2>
+            <p>${task.date}</p>
+            <p>${task.description}</p>
+            <button class="delete-btn" data-id="${task.id}">Delete</button>
+        </section>
+    `;
+    
+    toDoCards.insertAdjacentHTML('beforeend', taskHTML);
+    
+    const newTaskElement = document.getElementById(task.id);
+    newTaskElement.querySelector('.delete-btn').addEventListener('click', function() {
+        deleteTask(task.id);
+    });
+
+    setUpDragAndDrop();
+}
 
 function renderTaskList() {
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     const now = dayjs();
+    toDoCards.innerHTML = ''; 
+
+    tasks.forEach(task => {
+        addTaskToDOM(task); 
+    });
 
     toDoCards.innerHTML = tasks.map(task => {
         const isPastDue = dayjs(task.date).isBefore(now, 'day');
@@ -55,7 +84,9 @@ function deleteTask(taskId) {
     document.getElementById(taskId).remove();
 }
 
-// Function to set up drag-and-drop event listeners
+
+
+
 
 let draggedCard = null;
 
@@ -63,7 +94,7 @@ function setUpDragAndDrop() {
     document.querySelectorAll('.todocards').forEach(card => {
         card.addEventListener('dragstart', (e) => {
             draggedCard = card;
-            e.dataTransfer.setData("text/plain", card.id); // Ensure the card ID is set
+            e.dataTransfer.setData("text/plain", card.id); 
             setTimeout(() => {
                 if (draggedCard) {
                     draggedCard.style.display = 'none';
@@ -142,8 +173,6 @@ $(document).ready(function () {
 
 saveBtn.addEventListener('click', function() {
     createTaskCard();
-    renderTaskList();
-    setUpDragAndDrop();
     title.value = '';
     date.value = '';
     description.value = '';
