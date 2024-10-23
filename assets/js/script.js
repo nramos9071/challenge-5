@@ -4,12 +4,12 @@ let title = document.querySelector('#title');
 let date = document.querySelector('#date');
 let description = document.querySelector('#description');
 
-// Function to generate a unique task id
+
 function generateTaskId() {
     return 'card-' + Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 }
 
-// Function to create a task card
+
 function createTaskCard() {
     const taskId = generateTaskId();
 
@@ -20,7 +20,7 @@ function createTaskCard() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-// Function to render the task list and make cards draggable
+
 function renderTaskList() {
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     const now = dayjs();
@@ -31,7 +31,8 @@ function renderTaskList() {
             <section id="${task.id}" draggable="true" class="todocards ${isPastDue ? 'past-due' : ''}">
                 <h2>${task.title}</h2>
                 <p>${task.date}</p>
-                <button>Delete</button>
+                <p>${task.description}</p>
+                <button class="delete-btn" data-id="${task.id}">Delete</button>
             </section>
         `;
     }).join('');
@@ -62,6 +63,7 @@ function setUpDragAndDrop() {
     document.querySelectorAll('.todocards').forEach(card => {
         card.addEventListener('dragstart', (e) => {
             draggedCard = card;
+            e.dataTransfer.setData("text/plain", card.id); // Ensure the card ID is set
             setTimeout(() => {
                 if (draggedCard) {
                     draggedCard.style.display = 'none';
@@ -77,23 +79,26 @@ function setUpDragAndDrop() {
                 }
             }, 0);
         });
+    });
 
-        card.addEventListener('dragover', (e) => {
+    document.querySelectorAll('.lane').forEach(lane => {
+        lane.addEventListener('dragover', (e) => {
             e.preventDefault();
         });
 
-        card.addEventListener('drop', (e) => {
+        lane.addEventListener('drop', (e) => {
             e.preventDefault();
-            if (draggedCard) {
-                const cardsArray = Array.from(document.querySelectorAll('.todocards'));
-                const currentIndex = cardsArray.indexOf(card);
-                const draggedIndex = cardsArray.indexOf(draggedCard);
-
-                if (currentIndex > draggedIndex) {
-                    card.parentNode.insertBefore(draggedCard, card.nextSibling);
+            const cardId = e.dataTransfer.getData("text/plain");
+            const card = document.getElementById(cardId);
+            if (card) {
+                const dropTarget = e.target.closest('.lane');
+                if (dropTarget) {
+                    dropTarget.querySelector('.card-body').appendChild(card);
                 } else {
-                    card.parentNode.insertBefore(draggedCard, card);
+                    console.error("Drop target not found.");
                 }
+            } else {
+                console.error("Card not found:", cardId);
             }
         });
     });
@@ -139,4 +144,7 @@ saveBtn.addEventListener('click', function() {
     createTaskCard();
     renderTaskList();
     setUpDragAndDrop();
+    title.value = '';
+    date.value = '';
+    description.value = '';
 });
