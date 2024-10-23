@@ -21,7 +21,7 @@ A Website designed to keep track of tasks and when it will come due
 
 Home Page
 
-![Webpage Screen Shot](./assets/Images/Website ScreenShot.png)
+![Webpage Screen Shot](./assets/Images/Website%20ScreenShot.png)
 
 
 
