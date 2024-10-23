@@ -37,6 +37,21 @@ function renderTaskList() {
     }).join('');
 
     setUpDragAndDrop();
+
+
+    document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const taskId = this.getAttribute('data-id');
+            deleteTask(taskId);
+        });
+    });
+}
+
+function deleteTask(taskId) {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks = tasks.filter(task => task.id !== taskId);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    document.getElementById(taskId).remove();
 }
 
 // Function to set up drag-and-drop event listeners
